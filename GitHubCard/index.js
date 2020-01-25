@@ -3,6 +3,22 @@
            https://api.github.com/users/<your name>
 */
 
+axios
+	.get('https://api.github.com/users/flowersfaerie')
+	.then(function (response) {
+    // handle success
+		console.log(response);
+		response.data.forEach(item => {
+			let card = followerCards(item);
+            parent.appendChild(card);
+		});
+	})
+	.catch(function (error) {
+	// handle error
+		console.log(error);
+	})
+	
+
 /* Step 2: Inspect and study the data coming back, this is YOUR 
    github info! You will need to understand the structure of this 
    data in order to use it to build your component function 
@@ -45,6 +61,55 @@ const followersArray = [];
 </div>
 
 */
+
+function followerCards(item) {
+	
+	// Create the Elements
+	const cardPanel = document.createElement('div');
+	const flwrImg = document.createElement('img');
+	const cardInfo = document.createElement('div');
+	const flwrName = document.createElement('h3');
+	const flwrUName = document.createElement('p');
+	const locale = document.createElement('p');
+	const prof = document.createElement('p');
+	const pageLink = document.createElement('a');
+	const flwrCount = document.createElement('p');
+	const flwngCount = document.createElement('p');
+	const biography = document.createElement('p');
+	
+	// Append the Children
+	cardPanel.appendChild(flwrImg);
+	cardPanel.appendChild(cardInfo);
+	cardInfo.appendChild(flwrName);
+	cardInfo.appendChild(flwrUName);
+	cardInfo.appendChild(locale);
+	cardInfo.appendChild(prof);
+	prof.appendChild(pageLink);
+	cardInfo.appendChild(flwrCount);
+	cardInfo.appendChild(flwngCount);
+	cardInfo.appendChild(biography);
+	
+	// Set Class Names
+	cardPanel.classList.add('card');
+	cardInfo.classList.add('card-info');
+	flwrName.classList.add('name');
+	flwrUName.classList.add('username');
+	
+	// Add Content
+	flwrImg.src = item.avatar_url;
+	flwrName.textContent = item.name;
+	flwrUName.textContent = item.login;
+	locale.textContent = `Location: ${item.location}`;
+	prof.textContent = "Profile: ";
+	pageLink.src = item.url;
+	pageLink.textContent = item.url;
+	flwrCount.textContent = `Followers: ${item.followers}`;
+	flwngCount.textContent = `Following: ${item.following}`;
+	biography.textContent = item.bio;
+	
+	return cardPanel // returns the cardPanel component	
+}
+
 
 /* List of LS Instructors Github username's: 
   tetondan
